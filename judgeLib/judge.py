@@ -7,35 +7,28 @@ import os
 # this func return the result of judging and IO and expect of the program
 def judge(file_dir: str = None, code_text: str = None, language: str = None, input_dir: str = None, answer_dir: str = None, timeLimit: float = 1.0, memoryLimit: int = 512) -> tuple[str, str | None, str | None, str | None]:
     res = ''
-    fd = file_dir
-    ct = code_text
-    lang = language
-    id = input_dir
-    ad = answer_dir
-    tl = timeLimit
-    ml = memoryLimit
 
     need_delete = False
-    if fd is None:
-        if lang is None:
+    if file_dir is None:
+        if language is None:
             res = 'language is needed'
-        if ct is None:
+        if code_text is None:
             res = 'code text is needed'
         if res == '':
-            fd = 'temp.' + lang
-            writeFile(fd, ct)
+            file_dir = 'temp.' + language
+            writeFile(file_dir, code_text)
             need_delete = True
 
     # compile
     if res == '':
-        compileSuccess = compile(fd)
+        compileSuccess = compile(file_dir)
         if not compileSuccess:
             res = 'CE'
 
     if res == '':
         # read input and answer
-        input = readFile(id)
-        answer = readFile(ad)
+        input = readFile(input_dir)
+        answer = readFile(answer_dir)
         if input == 'Error: file not found':
             res = 'input not found'
         if answer == 'Error: file not found':
@@ -43,11 +36,11 @@ def judge(file_dir: str = None, code_text: str = None, language: str = None, inp
 
     # run
     if res == '':
-        print(fd)
-        exe_dir = fd.split('.')[0] + '.exe'
+        print(file_dir)
+        exe_dir = file_dir.split('.')[0] + '.exe'
         print('exe_dir:', exe_dir)
         if os.path.exists(exe_dir):
-            output = run(exe_dir, input, tl, ml)
+            output = run(exe_dir, input, timeLimit, memoryLimit)
         else:
             print('False')
             output = 'CE'
@@ -79,8 +72,8 @@ def judge(file_dir: str = None, code_text: str = None, language: str = None, inp
     # clean up the file
     if os.path.exists(exe_dir):
         os.remove(exe_dir)
-    if os.path.exists(fd) and need_delete:
-        os.remove(fd)
+    if os.path.exists(file_dir) and need_delete:
+        os.remove(file_dir)
     if os.path.exists(txt_dir):
         os.remove(txt_dir)
 
