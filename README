@@ -1,0 +1,6 @@
+clone the package
+moves judgeLib package to where you want to use it
+import judgeLib
+with this package 
+you should have subprocess, os, psutil
+see the sample.py file to have a view of the package
