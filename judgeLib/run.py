@@ -8,9 +8,14 @@ def run(file_dir: str, input: str, timeLimit: float, memoryLimit: int) -> str:
         # run the program
         process = subprocess.Popen(
             [file_dir], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=False)
+    except RuntimeError:
+        res = 'RE'
+    except MemoryError:
+        res = 'MLE'
+    except TimeoutError:
+        res = 'TLE'
     except:
         res = 'CE'
-
 
     if res == '':
         # calculate memory usage
