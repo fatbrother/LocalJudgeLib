@@ -1,5 +1,4 @@
 def readFile(file_dir: str) -> str:
-    print('Reading '+file_dir)
     try:
         with open(file_dir, 'r') as f:
             lines = f.readlines()
